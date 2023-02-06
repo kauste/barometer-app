@@ -1,0 +1,202 @@
+:root {
+    --heading-family: 'Gabriela', serif;
+    --main-family: 'PT Sans', sans-serif;
+}
+body{
+    background-color: #EBEBEA;
+    display:flex;
+}
+body, body *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+nav{
+    width: 200px;
+    height: 100vh;
+    background-color: #1C685A;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--main-family);
+    .logo-box{
+        padding: 40px 5px;
+        .logo{
+            width: 80px;
+            height: 80px;
+            fill:#fff;
+        }
+    }
+    .controls{
+        display:flex;
+        flex-direction:column;
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+        width: 200px;
+        text-align: center;
+        div{
+            padding: 20px 5px;
+            border-bottom: 2px solid #fff;
+            &:first-child{
+                border-top:2px solid #fff;
+            }
+            &:hover{
+                background-color: #e1501ba8;
+                cursor: pointer;
+            }
+        }
+        div.active{
+            background-color: #E1501B;
+        }
+    }
+}
+main{
+    width: calc(100vw - 200px);
+    color: #292929;
+    h1{
+        width: 100%;
+        text-align: center;
+        font-family: var(--heading-family);
+        padding: 30px 0px;
+    }
+    .both-cities-box{
+        width: 100%;
+        padding:30px;
+        margin-top: 10px;
+        display:flex;
+        gap: 30px;
+        justify-content: center;
+        align-items: center;
+        .one-city{
+            width: 50%;
+            display:flex;
+            flex-direction:column;
+            gap: 10px;
+            align-items: center;
+            h2{
+                font-family: var(--main-family);
+                font-size: 30px;
+                letter-spacing: 2px;
+                padding-bottom:20px;
+            }
+            .weather-pressure-box{
+                display:flex;
+                gap: 10px;
+                .city-weather{
+                    display:flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .weather-svg{
+                        width: 150px;
+                        height: 120px;
+                    }
+                }
+                .pressure-box{
+                    display:flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .arrow-svg{
+                        width: 50px;
+                        height: 120px;
+                        // transform:rotate(180deg)
+                    }     
+                }
+                .weather-name, .pressure-condition{
+                    font-style:italic;
+                    font-size: 18px;                  
+                }
+            }
+            .barometer-box{
+                margin-top: 20px;
+                position:relative;
+                width:240px;
+                height:240px;
+                display:flex;
+                .barometer-img{
+                    width: 240px;
+                    height: 240px;
+                    border: black solid 4px;
+                    border-radius: 50%;
+                }
+                .barometer-arrow-box{
+                    position:absolute;
+                    height: 240px;
+                    transform: rotate(45deg);
+                    .barometer-arrow{
+                        width: 240px;
+                        height: 120px;
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+}
+footer{
+    position: absolute;
+    width: calc(100% - 200px);
+    height: 80px;
+    bottom: 0px;
+    left: 200px;
+    background-color: black;
+    text-align:center;
+    color:#fff;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    a{
+        color:#fff;
+    }
+    .github-ico-box{
+        display:flex;
+        align-items: center;
+        gap: 5px;
+        .github-ico{
+            fill:#fff;
+            background-color: transparent;
+            width: 60px;
+            height:60px;
+        }
+    }
+}
+@media(max-width: 960px){
+    body{
+        flex-direction:column;
+        nav{
+            width: 100%;
+            height: 70px;
+            flex-direction:row;
+            justify-content: space-between;
+            .logo-box{
+                height: 100%;
+                padding:10px 20px;
+                .logo{
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            .controls{
+                flex-direction:row;
+                height: 100%;
+                width: 50%;
+                div{
+                    border:none;
+                    width: 200px;
+                    height: 100%;
+                    padding-top:25px;
+                    &:first-child{
+                        border-top:none;
+                    }
+                    // border-right: 2px white solid;
+                }
+            }
+
+        }
+        main{
+            width: 100%;
+        }
+    }
+}
