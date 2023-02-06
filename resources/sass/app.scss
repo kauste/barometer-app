@@ -113,19 +113,22 @@ main{
                 width:240px;
                 height:240px;
                 display:flex;
+                
                 .barometer-img{
                     width: 240px;
                     height: 240px;
                     border: black solid 4px;
                     border-radius: 50%;
+                    // transform: rotate(355.5deg);
                 }
                 .barometer-arrow-box{
                     position:absolute;
-                    height: 240px;
-                    transform: rotate(45deg);
+                    height: 160px;
+                    top:40px;
+                    transform: rotate(270deg);
                     .barometer-arrow{
                         width: 240px;
-                        height: 120px;
+                        height: 80px;
                         
                     }
                 }
@@ -197,6 +200,14 @@ footer{
         }
         main{
             width: 100%;
+            .both-cities-box{
+                margin-top:0;
+                padding-top: 10px;
+            }
+        }
+        footer{
+            width: 100%;
+            left:0;
         }
     }
 }

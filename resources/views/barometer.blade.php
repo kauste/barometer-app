@@ -85,7 +85,7 @@
         <a href="https://rugile.website/">https://rugile.website/</a>
         <div class="github-ico-box">
             <span>See code:</span>
-            <a href="https://github.com/kauste" target="_blank">
+            <a href="https://github.com/kauste/barometer-app" target="_blank">
                 <svg class="github-ico">
                     <use xlink:href="#github"></use>
                 </svg>
