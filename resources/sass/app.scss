@@ -119,13 +119,13 @@ main{
                     height: 240px;
                     border: black solid 4px;
                     border-radius: 50%;
-                    // transform: rotate(355.5deg);
+                    transform: rotate(355.5deg);
                 }
                 .barometer-arrow-box{
                     position:absolute;
                     height: 160px;
                     top:40px;
-                    transform: rotate(270deg);
+                    transform: rotate(calc(5 * 3 / 2)deg);
                     .barometer-arrow{
                         width: 240px;
                         height: 80px;
@@ -208,6 +208,85 @@ footer{
         footer{
             width: 100%;
             left:0;
+            height: 60px;
+        }
+    }
+}
+@media(max-width: 776px){
+    body{
+        nav{
+            height: 60px;
+            .logo-box{
+                padding: 10px 5px;
+                .logo{
+                    width:40px;
+                    height:40px;
+                }
+            }
+            .controls{
+                font-size: 15px;
+                width: 70%;
+                div{
+                    padding-top: 22.5px;
+                }
+            }
+        }
+        main{
+            padding-top: calc(5vw + 10px);
+            h1{
+                font-size: calc(3vw + 10px);
+            }
+            .both-cities-box{
+                .one-city{
+                    h2{
+                        font-size: calc(2vw + 8px);
+                    }
+                    .weather-pressure-box{
+                        .city-weather{
+                            .weather-svg{
+                                width: calc(7.5vw + 50px);
+                                height: calc(6vw + 40px);
+                            }
+                        }
+                        .pressure-box{
+                            .arrow-svg{
+                                width: 30px;
+                                height: calc(6vw + 40px);
+                            }     
+                        }
+                        .weather-name, .pressure-condition{
+                            font-style:italic;
+                            font-size: calc(1vw + 8px);                 
+                        }
+                    }
+                    .barometer-box{
+                        margin-top: 20px;
+                        position:relative;
+                        width:200px;
+                        height:200px;
+                        display:flex;
+                        
+                        .barometer-img{
+                            width: 200px;
+                            height: 200px;
+                            border: black solid 4px;
+                            border-radius: 50%;
+                            transform: rotate(355.5deg);
+                        }
+                        .barometer-arrow-box{
+                            position:absolute;
+                            height: 120px;
+                            top:40px;
+                            transform: rotate(calc(5 * 3 / 2)deg);
+                            .barometer-arrow{
+                                width: 200px;
+                                height: 60px;
+                                
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

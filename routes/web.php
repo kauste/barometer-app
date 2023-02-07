@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BarometerController;
 
-Route::get('/', function () {
-    return view('barometer');
-});
+Route::get('/', [BarometerController::class, 'index']);
