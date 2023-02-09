@@ -2,6 +2,12 @@
     --heading-family: 'Gabriela', serif;
     --main-family: 'PT Sans', sans-serif;
 }
+@property --percentage {
+    initial-value: 100%;
+    inherits: false;
+    syntax: '<percentage>';
+}
+
 body{
     background-color: #EBEBEA;
     display:flex;
@@ -38,6 +44,7 @@ nav{
         div{
             padding: 20px 5px;
             border-bottom: 2px solid #fff;
+            transition: 0.2s ease-out;
             &:first-child{
                 border-top:2px solid #fff;
             }
@@ -47,7 +54,8 @@ nav{
             }
         }
         div.active{
-            background-color: #E1501B;
+            background: linear-gradient(225deg, #e1501ba8 0%, #E1501B var(--percentage));
+            animation: change-color ease-out 0.5s forwards;
         }
     }
 }
@@ -58,7 +66,7 @@ main{
         width: 100%;
         text-align: center;
         font-family: var(--heading-family);
-        padding: 30px 0px;
+        padding-top:30px;
     }
     .both-cities-box{
         width: 100%;
@@ -68,6 +76,7 @@ main{
         gap: 30px;
         justify-content: center;
         align-items: center;
+        transition: ease-in;
         .one-city{
             width: 50%;
             display:flex;
@@ -79,6 +88,7 @@ main{
                 font-size: 30px;
                 letter-spacing: 2px;
                 padding-bottom:20px;
+                text-transform: capitalize;
             }
             .weather-pressure-box{
                 display:flex;
@@ -106,6 +116,12 @@ main{
                     font-style:italic;
                     font-size: 18px;                  
                 }
+                .pressure-else{
+                    width: 10vw;
+                    font-style: italic;
+                    font-size: calc(6px + 0.6vw);
+                    align-self: center;
+                }
             }
             .barometer-box{
                 margin-top: 20px;
@@ -125,7 +141,6 @@ main{
                     position:absolute;
                     height: 160px;
                     top:40px;
-                    transform: rotate(calc(5 * 3 / 2)deg);
                     .barometer-arrow{
                         width: 240px;
                         height: 80px;
@@ -134,6 +149,14 @@ main{
                 }
             }
         }
+    }
+    .no-data{
+        padding: 12vh 0;
+        display:flex;
+        flex-direction:column;
+        align-items: center;
+        gap: 5vh;
+        font-family: var(--main-family);
     }
     
 }
@@ -152,6 +175,10 @@ footer{
     padding: 0 30px;
     a{
         color:#fff;
+        transition: 0.2s ease-in;
+        &:hover{
+            color:#E1501B;
+        }
     }
     .github-ico-box{
         display:flex;
@@ -162,6 +189,10 @@ footer{
             background-color: transparent;
             width: 60px;
             height:60px;
+            transition: 0.2s ease-in;
+            &:hover{
+                fill:#E1501B;
+            }
         }
     }
 }
@@ -209,6 +240,12 @@ footer{
             width: 100%;
             left:0;
             height: 60px;
+            .github-ico-box {
+                .github-ico{
+                    width: 50px;
+                    height: 50px;
+                }
+            }
         }
     }
 }
@@ -277,7 +314,6 @@ footer{
                             position:absolute;
                             height: 120px;
                             top:40px;
-                            transform: rotate(calc(5 * 3 / 2)deg);
                             .barometer-arrow{
                                 width: 200px;
                                 height: 60px;
@@ -288,5 +324,47 @@ footer{
                 }
             }
         }
+    }
+}
+@media(max-width: 496px){
+    body{
+        main{
+            .both-cities-box{
+                flex-direction: column;
+                .one-city{
+                    .weather-pressure-box{
+                        .city-weather{
+                            gap: 5px;
+                            .weather-svg{
+                                width: 100px;
+                                height: 80px;
+                            }
+                        }
+                        .pressure-box{
+                            .arrow-svg{
+                                height:80px;
+                            }
+                        }
+                        .pressure-else{
+                            width: 80px;
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+        footer{
+            position:relative;
+            height: 150px;
+            padding-bottom: 10px;
+            flex-direction: column-reverse;
+            justify-content: space-around;
+            align-items:start;
+        };
+    }
+}
+@keyframes change-color {
+    100%{
+        --percentage: 0%;
     }
 }
