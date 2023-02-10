@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barometer;
+use Carbon\Carbon;
 
 
 class BarometerController extends Controller
@@ -15,7 +16,18 @@ class BarometerController extends Controller
     public function index()
     {
         $barometerData = Barometer::all();
-        return view('barometer', ['barometerData' => $barometerData]);
+        $lastUpdate = Barometer::orderByDesc('updated_at')
+                    ?->select('updated_at')
+                    ?->first()
+                    ?->updated_at;
+
+        // TEST if($lastUpdate && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()->addSeconds(60)) >= 1){
+        if($lastUpdate && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15){
+            $lastUpdate = Carbon::parse($lastUpdate)->locale('lt')->tz('Europe/Vilnius')->format('Y-m-d H:i');
+        }
+
+
+        return view('barometer', ['barometerData' => $barometerData, 'lastUpdate' => $lastUpdate]);
     }
 
     /**

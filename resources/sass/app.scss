@@ -58,15 +58,32 @@ nav{
             animation: change-color ease-out 0.5s forwards;
         }
     }
+
 }
 main{
     width: calc(100vw - 200px);
     color: #292929;
+    position:relative;
+    .message{
+        display:none;
+        position:absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: calc(30px + 1vw);
+        background-color: #E1501B;
+        font-family: var(--headings-family);
+        text-align: center;
+        color:#fff;
+        font-size:15px;
+        line-height: 15px;
+        padding-top: calc((15px + 1vw) / 2);        
+    }
     h1{
         width: 100%;
         text-align: center;
         font-family: var(--heading-family);
-        padding-top:30px;
+        padding-top:60px;
     }
     .both-cities-box{
         width: 100%;

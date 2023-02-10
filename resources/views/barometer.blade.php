@@ -23,9 +23,9 @@
             <div class="nav--nida">Nida</div>
             <div class="nav--both">Both</div>
         </div>
-
     </nav>
     <main>
+    <div class="message message--js" data-update-condition="{{$lastUpdate}}"></div>
         <h1>Current weather conditions</h1>
         <div class="both-cities-box both--js">
          {{-- TEST @if(isset($notExistingVariable)) --}}
@@ -62,7 +62,7 @@
                 </div>
             </div>
             @empty
-            <div class="no-data">
+            <div class="no-data no--data">
                 <svg>
                     <use xlink:href="#sloth"></use>
                 </svg>
@@ -70,7 +70,7 @@
             </div>
             @endforelse
             @else
-            <div class="no-data">
+            <div class="no-data no--data">
                 <svg>
                     <use xlink:href="#sloth"></use>
                 </svg>

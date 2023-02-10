@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use App\Events\WeatherUpdated;
+use App\Events\WeatherUpdateFail;
 
 class Barometer extends Model
 {
@@ -18,13 +19,23 @@ class Barometer extends Model
     public static function createOrUpdate(){
         foreach(self::CITIES as $key => $city){
             // current weather condition
+            // TEST visit https://api.openweathermap.org/data/2.5/weather?q=nida,LT&appid=4073f66b93000ba7712dff2f2f0628a5 press ctrl+f find pressure and weather[0].main
+            // TEST $city = 'k.sjdj';
             $currentCondition = Http::get('https://api.openweathermap.org/data/2.5/weather',[
                 'q' => $city.',LT',
                 'appid'=> '4073f66b93000ba7712dff2f2f0628a5'
             ]);
+            
             if($currentCondition->failed()){
-                //return kazkoks...
+                $lastUpdate = self::orderByDesc('updated_at')
+                                   ?->select('updated_at')
+                                   ?->first()
+                                   ?->updated_at;
+                
+                return WeatherUpdateFail::dispatch($lastUpdate);
             }
+
+            //TEST  $currentWeather = 'rain'; command line: php artisan schedule:run
             $currentWeather = match($currentCondition['weather'][0]['main']){
                 'Thunderstorm', 'Dust', 'Sand', 'Tornado', 'Squall' => 'storm',
                 'Drizzle', 'Rain' => 'rain',
@@ -33,15 +44,19 @@ class Barometer extends Model
                 'Ash' => 'dry',
                 'Snow' => 'snow'
             };
+            // TEST $currentPressure = 1070
             $currentPressure = $currentCondition['main']['pressure'];
 
             //previous weather condition
+            
             $previousCondition = self::where('city', $city)
                         ?->select('is_rising', 'pressure', 'weather_condition')
                         ?->first();
-            $previousCurrentPressure = $previousCondition?->pressure;
+            // TEST $previousCurrentPressure = 960; command line: php artisan schedule:run , php artisan migrate:fresh; php artisan schedule:work
+            $previousCurrentPressure = $previousCondition?->pressure; 
             $previousIsRisig = $previousCondition?->is_rising;
             $previousWeather = $previousCondition?->weather_condition;
+            $previousPreviousPressure = $previousCondition?->previous_pressure;
             
            // detection if is rising
             if($previousCurrentPressure > $currentPressure){
@@ -53,33 +68,35 @@ class Barometer extends Model
             else{
                 $isRising = $previousIsRisig;
             }
-            // create or update database
+            // data for creating or updating
+            $dataForUpdate = ['weather_condition' => $currentWeather, 
+                              'pressure' => $currentPressure,
+                              'previous_pressure' => $previousCurrentPressure,
+                              'is_rising' => $isRising];
+
+            // validation
+            $validator = Validator::make($dataForUpdate, 
+                                        [
+                                            'weather_condition' => 'required|string|min:3|max:20',
+                                            'pressure' => 'required|integer|min:600|max:1080',
+                                            'previous_pressure' => 'nullable|integer|min:600|max:1080',
+                                            'is_rising' => 'boolean|nullable',
+                                        ]);
+            if ($validator->fails()) {
+                    $lastUpdate = self::orderByDesc('updated_at')
+                    ?->select('updated_at')
+                    ?->first()
+                    ?->updated_at;
+
+                    return WeatherUpdateFail::dispatch($lastUpdate);
+            }
+            // to database
             self::updateOrCreate(
                 ['city' => $city],
-                ['weather_condition' => $currentWeather, 
-                 'pressure' => $currentPressure,
-                 'previous_pressure' => $previousCurrentPressure,
-                 'is_rising' => $isRising]
+                $dataForUpdate
             );
             $thisCity = self::where('city', $city)->first();
-
-            // event(new WeatherUpdated($thisCity));
-            WeatherUpdated::dispatch($thisCity);
-
-
-            
-            // if($previousCurrentPressure != $currentPressure 
-            //     || $previousWeather !== $currentWeather){
-                    // $condition = ['weather_condition' => $currentWeather, 
-                    //               'pressure' => $currentPressure,
-                    //               'is_rising' => $isRising];
-                    
-                // if(count(self::CITIES - 1) == $key){
-                
-                // }                    
-            // }
-            
+            WeatherUpdated::dispatch($thisCity); // event(new WeatherUpdated($thisCity));
         }
     }
-
 }
