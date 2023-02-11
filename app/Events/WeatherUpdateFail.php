@@ -9,7 +9,6 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Carbon\Carbon;
 
 class WeatherUpdateFail implements ShouldBroadcast
 {
@@ -23,17 +22,8 @@ class WeatherUpdateFail implements ShouldBroadcast
      */
     public function __construct($lastUpdate)
     {
-        // if(Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()->addSeconds(60)) >= 1)
-        // dump($lastUpdate);
-        if($lastUpdate !== null 
-            && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15)
-        {
-            $this->lastUpdate = Carbon::parse($lastUpdate)->locale('lt')->tz('Europe/Vilnius')->format('Y-m-d H:i');
-        }
-        else 
-        {
-            $this->lastUpdate = null;
-        }
+
+        $this->lastUpdate = $lastUpdate;
     }
 
     /**

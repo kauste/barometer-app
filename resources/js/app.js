@@ -1,20 +1,20 @@
-import "./bootstrap";
-const bothCitiesDOM = document.querySelector(".both--js");
-const controlsDOM = document.querySelector(".controls--js");
-const navNidaDOM = controlsDOM.querySelector(".nav--nida");
-const navVilniusDOM = controlsDOM.querySelector(".nav--vilnius");
-const navBothDOM = controlsDOM.querySelector(".nav--both");
+import './bootstrap';
+const bothCitiesDOM = document.querySelector('.both--js');
+const controlsDOM = document.querySelector('.controls--js');
+const navNidaDOM = controlsDOM.querySelector('.nav--nida');
+const navVilniusDOM = controlsDOM.querySelector('.nav--vilnius');
+const navBothDOM = controlsDOM.querySelector('.nav--both');
 const messageDOM = document.querySelector('.message--js');
 const zeroDeg = 1015;
 
 const showCity = (navElement, nidaDisplay, vilniusDisplay) => {
-    const nidaDOM = bothCitiesDOM.querySelector(".nida--city");
-    const vilniusDOM = bothCitiesDOM.querySelector(".vilnius--city");
-    navElement.addEventListener("click", () => {
+    const nidaDOM = bothCitiesDOM.querySelector('.nida--city');
+    const vilniusDOM = bothCitiesDOM.querySelector('.vilnius--city');
+    navElement.addEventListener('click', () => {
         [...controlsDOM.children].forEach((control) => {
-            control.classList.remove("active");
+            control.classList.remove('active');
         });
-        navElement.classList.add("active");
+        navElement.classList.add('active');
         nidaDOM.style.display = nidaDisplay;
         vilniusDOM.style.display = vilniusDisplay;
     });
@@ -27,7 +27,7 @@ const addMessage = (updateTime) => {
            {opacity: 0},
            {opacity: 1}
         ],
-        {duration: 5000, iterations: 1, easing: 'linear'}
+        {duration: 3000, iterations: 1, easing: 'linear'}
     )
     messageDOM.innerText = errorMessage;
 }
@@ -37,15 +37,15 @@ const removeMessage = () => {
            {opacity: 1},
            {opacity: 0}
         ],
-        {duration: 5000, iterations: 1}
+        {duration: 3000, iterations: 1}
     )
-    setTimeout(() => {messageDOM.style.display = 'none'}, 5000);
+    setTimeout(() => {messageDOM.style.display = 'none'}, 3000);
 }
 
-if (document.querySelector(".no--data")) 
+if (document.querySelector('.no--data')) 
     {
         let a = 0;
-        Echo.channel("public.weather.update").listen("WeatherUpdated", () => {
+        Echo.channel('public.weather.update').listen('WeatherUpdated', () => {
             ++a;
             if (a == 2) {
                 location.reload();
@@ -64,47 +64,47 @@ else
             }
             bothCitiesDOM.animate(
                 [
-                    { gap: "100px", opacity: 0 },
-                    { gap: "30px", opacity: 1 },
+                    { gap: '100px', opacity: 0 },
+                    { gap: '30px', opacity: 1 },
                 ],
                 { duration: 1000, iterations: 1, easing: 'linear'}
             );
-            setData("vilnius");
-            setData("nida");
-            // barometerArrow('makarena'); ---> test
+
+            setData('vilnius');
+            setData('nida');
         });
         const isRising = (city) => 
             {
                 const isRisingDOM = bothCitiesDOM.querySelector(`.is--rising--${city}`);
                 if(isRisingDOM !== null){
-                    const isRisingSvgDOM = isRisingDOM.querySelector("svg");
-                    const isRisingTextDOM = isRisingDOM.querySelector("span");
-                    const isRising = parseInt(isRisingDOM.dataset.isRising);
-                
-                    isRisingSvgDOM.style.transform = isRising ? "rotate(0deg)" : "rotate(180deg)";
-                    isRisingTextDOM.innerText = isRising ? "Pressure rising" : "Pressure falling";
+                    const isRisingSvgDOM = isRisingDOM.querySelector('svg');
+                    const isRisingTextDOM = isRisingDOM.querySelector('span');
+                    // TEST const isRising = parseInt(isRisingDOM.dataset.isRising);
+                    const isRising = 0;
+                    isRisingSvgDOM.style.transform = isRising ? 'rotate(0deg)' : 'rotate(180deg)';
+                    isRisingTextDOM.innerText = isRising ? 'Pressure rising' : 'Pressure falling';
                 }
             }
         const weatherCondition = (city) => 
             {
                 const cityWeatherConditionDOM = bothCitiesDOM.querySelector(`.weather--${city}`);
                 const weatherCondition = cityWeatherConditionDOM.dataset.weatherCondition;
-            
-                cityWeatherConditionDOM.querySelector("use").setAttribute("xlink:href", `#${weatherCondition}`);
-                cityWeatherConditionDOM.querySelector("span").innerText = weatherCondition !== "dry" ? weatherCondition : `very ${weatherCondition}`;
+            // TEST const weatherCondition = 'snow';
+                cityWeatherConditionDOM.querySelector('use').setAttribute('xlink:href', `#${weatherCondition}`);
+                cityWeatherConditionDOM.querySelector('span').innerText = weatherCondition !== 'dry' ? weatherCondition : `very ${weatherCondition}`;
             }
         const barometerArrow = (city) => {
             const barometerDOM = document.querySelector(`.${city}--barometer`);
             const hectopascalPressure = barometerDOM.dataset.pressure;
-            const arrowBoxDOM = barometerDOM.querySelector("div");
-        
+            const arrowBoxDOM = barometerDOM.querySelector('div');
+            // TEST console.log(hectopascalPressure);
             if (hectopascalPressure !== zeroDeg) {
                 const rotateDeg = ((hectopascalPressure - zeroDeg) * 90) / 33;
                 // TEST console.log(rotateDeg);
                 arrowBoxDOM.style.transform = `rotate(${rotateDeg}deg)`;
                 // TEST arrowBoxDOM.style.transform = `rotate(180deg)`;
             } else {
-                arrowBoxDOM.style.transform = "rotate(0deg)";
+                arrowBoxDOM.style.transform = 'rotate(0deg)';
             }
         };
         const setData = (city) => {
@@ -121,25 +121,25 @@ else
 
             const city = e.updatedCity.city;
             const isRisingUpdate = (e) => {
-                 //TEST const isRising = 1;
-                 if(e.updatedCity.is_rising != null){
-                     const isRising = e.updatedCity.is_rising;
+                if(e.updatedCity.is_rising != null){
+                    const isRising = e.updatedCity.is_rising;
+                    //TEST const isRising = 1;
                      const isRisingDOM = bothCitiesDOM.querySelector(`.is--rising--${city}`);
                      isRisingDOM.dataset.isRising = isRising;
                  }
             }
             const weatherConditionUpdate = (e) => {
-                  // TEST const weatherCondition = 'dry';
-                const weatherCondition = e.updatedCity.weather_condition;
+                // const weatherCondition = e.updatedCity.weather_condition;
+                const weatherCondition = 'dry';
                 const cityWeatherConditionDOM = bothCitiesDOM.querySelector(`.weather--${city}`);
                 cityWeatherConditionDOM.dataset.weatherCondition = weatherCondition;
             }
             const pressureUpdate = (e) => {
-                // TEST  const pressure = 960;
                 const pressure = e.updatedCity.pressure;
+                // TEST  const pressure = 960;
                 const barometerDOM = document.querySelector(`.${city}--barometer`);
                 barometerDOM.dataset.pressure = pressure;
-                // TEST barometerDOM.dataset.pressure = 960
+                // TEST barometerDOM.dataset.pressure = 1050
             }
             isRisingUpdate(e);
             weatherConditionUpdate(e);
@@ -148,9 +148,10 @@ else
             });
         Echo.channel('public.weather.update.fail')
             .listen('WeatherUpdateFail', (e) => {
-                const updateTime = e.lastUpdate;
-                if(updateTime){
+                if(e.lastUpdate){
                     addMessage(updateTime);
+                }else{
+                    location.reload();
                 }
             })
     }

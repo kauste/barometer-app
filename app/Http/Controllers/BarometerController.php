@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Barometer;
 use Carbon\Carbon;
 
-
 class BarometerController extends Controller
 {
     /**
@@ -20,13 +19,22 @@ class BarometerController extends Controller
                     ?->select('updated_at')
                     ?->first()
                     ?->updated_at;
-
-        // TEST if($lastUpdate && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()->addSeconds(60)) >= 1){
-        if($lastUpdate && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15){
-            $lastUpdate = Carbon::parse($lastUpdate)->locale('lt')->tz('Europe/Vilnius')->format('Y-m-d H:i');
-        }
-
-
+                   
+        // TEST if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 0){
+        // TEST if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 0){
+            if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15){   
+                if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 3){
+                    Barometer::where('id', '>', 0)->delete();
+                    $lastUpdate = null;
+                }
+                else{
+                    $lastUpdate = Carbon::parse($lastUpdate)->locale('lt')->tz('Europe/Vilnius')->format('Y-m-d H:i');
+                }
+            }
+            else{
+                $lastUpdate = null;
+            }
+            
         return view('barometer', ['barometerData' => $barometerData, 'lastUpdate' => $lastUpdate]);
     }
 

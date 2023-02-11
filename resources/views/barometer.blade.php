@@ -36,7 +36,7 @@
                 <div class="weather-pressure-box">
                     <div class="city-weather weather--{{$oneCity['city']}}" data-weather-condition="{{$oneCity['weather_condition']}}">
                         <svg class="weather-svg">
-                            <use xlink:href="#{{$oneCity['weather_condition']}}"></use>
+                            <use xlink:href=""></use>
                         </svg>
                         <span class="weather-name"></span>
                     </div>

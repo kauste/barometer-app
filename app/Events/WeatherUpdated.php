@@ -24,7 +24,6 @@ class WeatherUpdated implements ShouldBroadcast
     public function __construct(Barometer $barometer)
     {
         $this->cityBarometer = $barometer;
-        // dump($this->cityBarometer['city']);
     }
 
     /**
