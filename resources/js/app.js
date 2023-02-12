@@ -129,8 +129,8 @@ else
                  }
             }
             const weatherConditionUpdate = (e) => {
-                // const weatherCondition = e.updatedCity.weather_condition;
-                const weatherCondition = 'dry';
+                const weatherCondition = e.updatedCity.weather_condition;
+                // const weatherCondition = 'dry';
                 const cityWeatherConditionDOM = bothCitiesDOM.querySelector(`.weather--${city}`);
                 cityWeatherConditionDOM.dataset.weatherCondition = weatherCondition;
             }
@@ -149,7 +149,7 @@ else
         Echo.channel('public.weather.update.fail')
             .listen('WeatherUpdateFail', (e) => {
                 if(e.lastUpdate){
-                    addMessage(updateTime);
+                    addMessage(e.lastUpdate);
                 }else{
                     location.reload();
                 }

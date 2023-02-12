@@ -33,9 +33,9 @@ class Barometer extends Model
                 ?->first()
                 ?->updated_at;
             if($currentCondition->failed()){
-            // dump('here i am')  ;
-                // TEST if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 0){
-                // TEST if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 0){
+            // dump('here i am') ;
+                //TEST if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 0){
+                //TEST if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 0){
                 if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15){   
                     if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 3){
                         self::where('id', '>', 0)->delete();
@@ -86,13 +86,13 @@ class Barometer extends Model
         //    TEST $currentWeather = 5;
             $dataForUpdate = ['weather_condition' => $currentWeather, 
                               'pressure' => (int) $currentPressure,
-                              'previous_pressure' => (int) $previousCurrentPressure,
+                              'previous_pressure' => $previousCurrentPressure,
                               'is_rising' => $isRising];
 
             // validation
             $validator = Validator::make($dataForUpdate, 
                                         [
-                                            'weather_condition' => 'required|string|min:3|max:20|',
+                                            'weather_condition' => 'required|string|min:3|max:20',
                                             'pressure' => 'required|integer|min:600|max:1080',
                                             'previous_pressure' => 'nullable|integer|min:600|max:1080',
                                             'is_rising' => 'boolean|nullable',
@@ -100,8 +100,7 @@ class Barometer extends Model
             if ($validator->fails()) {
                 // TEST if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 0){
                 // TEST if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 0){
-                if($lastUpdate !== null 
-                && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15){   
+                if($lastUpdate !== null && Carbon::parse($lastUpdate)->diffInMinutes(Carbon::now()) >= 15){   
                     if(Carbon::parse($lastUpdate)->diffInHours(Carbon::now()) >= 3){
                         self::where('id', '>', 0)->delete();
                         $lastUpdate = null;
@@ -111,6 +110,7 @@ class Barometer extends Model
                     }
                     return WeatherUpdateFail::dispatch($lastUpdate);
                 }
+                else return;
             }
             // to database
             self::updateOrCreate(

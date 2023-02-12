@@ -22,7 +22,7 @@ class WeatherUpdateFail implements ShouldBroadcast
      */
     public function __construct($lastUpdate)
     {
-
+        // dump('patekau');
         $this->lastUpdate = $lastUpdate;
     }
 
